@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, BookOpen, FileText, Play, CheckCircle, AlertCircle, Trophy } from 'lucide-react';
 import { toast } from 'sonner';
 import axios, { AxiosError } from 'axios';
+import ShareTestButton from '@/components/test/ShareTestButton';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -189,6 +190,12 @@ function TestCard({ test, onStart }: TestCardProps) {
       <CardHeader>
         <div className="flex items-start justify-between">
           <Badge className="bg-green-500">Published</Badge>
+          <ShareTestButton 
+            testId={test.id} 
+            testName={test.name}
+            variant="ghost"
+            size="sm"
+          />
         </div>
         <CardTitle className="text-xl mt-2">{test.name}</CardTitle>
         <CardDescription>{test.subject}</CardDescription>

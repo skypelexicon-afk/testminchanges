@@ -156,6 +156,20 @@ export const startExamSession = async (req, res) => {
       });
     }
 
+    // Check if this is a retake (previous completed attempts exist)
+    const previousAttempts = await db
+      .select()
+      .from(examSessions)
+      .where(
+        and(
+          eq(examSessions.test_id, parseInt(testId)),
+          eq(examSessions.student_id, studentId),
+          eq(examSessions.status, "completed")
+        )
+      );
+
+    const isFirstAttempt = previousAttempts.length === 0;
+
     // Create new exam session
     const [newSession] = await db
       .insert(examSessions)
@@ -165,6 +179,7 @@ export const startExamSession = async (req, res) => {
         answers: {},
         marked_for_review: [],
         status: "in_progress",
+        is_first_attempt: isFirstAttempt,
       })
       .returning();
 

@@ -301,6 +301,7 @@ export const tests = pgTable("tests", {
   description: text("description"),
   instructions: text("instructions"), // Editable NTA-style instructions
   status: testStatusEnum("status").notNull().default("draft"),
+  allow_retake: boolean("allow_retake").notNull().default(true),
   created_by: integer("created_by").notNull().references(() => users.id),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
@@ -333,6 +334,31 @@ export const examSessions = pgTable("exam_sessions", {
   end_time: timestamp("end_time"),
   score: doublePrecision("score"),
   status: examStatusEnum("status").notNull().default("in_progress"),
+  is_first_attempt: boolean("is_first_attempt").notNull().default(true),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Test Course Recommendations
+export const testCourseRecommendations = pgTable("test_course_recommendations", {
+  id: serial("id").primaryKey(),
+  test_id: integer("test_id").notNull().references(() => tests.id, { onDelete: "cascade" }),
+  course_id: integer("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Test Doubts
+export const testDoubts = pgTable("test_doubts", {
+  id: serial("id").primaryKey(),
+  session_id: integer("session_id").notNull().references(() => examSessions.id, { onDelete: "cascade" }),
+  student_id: integer("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  question_number: integer("question_number"),
+  doubt_text: text("doubt_text").notNull(),
+  screenshot_url: text("screenshot_url"),
+  status: text("status").notNull().default("pending"), // pending, responded
+  response_text: text("response_text"),
+  responded_by: integer("responded_by").references(() => users.id),
+  responded_at: timestamp("responded_at"),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -524,13 +550,40 @@ export const questionRelations = relations(questions, ({ one }) => ({
   }),
 }));
 
-export const examSessionRelations = relations(examSessions, ({ one }) => ({
+export const examSessionRelations = relations(examSessions, ({ one, many }) => ({
   test: one(tests, {
     fields: [examSessions.test_id],
     references: [tests.id],
   }),
   student: one(users, {
     fields: [examSessions.student_id],
+    references: [users.id],
+  }),
+  doubts: many(testDoubts),
+}));
+
+export const testCourseRecommendationRelations = relations(testCourseRecommendations, ({ one }) => ({
+  test: one(tests, {
+    fields: [testCourseRecommendations.test_id],
+    references: [tests.id],
+  }),
+  course: one(courses, {
+    fields: [testCourseRecommendations.course_id],
+    references: [courses.id],
+  }),
+}));
+
+export const testDoubtRelations = relations(testDoubts, ({ one }) => ({
+  session: one(examSessions, {
+    fields: [testDoubts.session_id],
+    references: [examSessions.id],
+  }),
+  student: one(users, {
+    fields: [testDoubts.student_id],
+    references: [users.id],
+  }),
+  responder: one(users, {
+    fields: [testDoubts.responded_by],
     references: [users.id],
   }),
 }));

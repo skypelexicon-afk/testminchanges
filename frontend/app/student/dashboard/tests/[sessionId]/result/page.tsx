@@ -14,10 +14,13 @@ import {
   AlertCircle, 
   TrendingUp,
   Award,
-  Target
+  Target,
+  RotateCcw
 } from 'lucide-react';
 import { toast } from 'sonner';
 import axios, { AxiosError } from 'axios';
+import RecommendedCourses from '@/components/test/RecommendedCourses';
+import DoubtSection from '@/components/test/DoubtSection';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -42,6 +45,7 @@ interface ResultData {
     score: number;
   };
   test: {
+    id?: number;
     name: string;
     subject: string;
     total_marks: number;
@@ -57,6 +61,11 @@ interface ResultData {
     percentage: string;
   };
   questions: QuestionResult[];
+}
+
+interface Test {
+  id: number;
+  name: string;
 }
 
 export default function ExamResultPage() {

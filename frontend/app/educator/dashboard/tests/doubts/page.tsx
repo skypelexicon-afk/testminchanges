@@ -150,7 +150,7 @@ export default function EducatorDoubtsPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => router.push(`/educator/dashboard/tests/result/${doubt.session_id}`)}
+                        onClick={() => router.push(`/educator/dashboard/tests/${doubt.test_id}/result/${doubt.session_id}`)}
                         title="View Student Result"
                       >
                         <ExternalLink className="h-4 w-4" />

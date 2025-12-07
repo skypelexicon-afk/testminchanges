@@ -216,7 +216,8 @@ export default function TestAttemptPage() {
           clearInterval(timerRef.current);
         }
         toast.success('Exam submitted successfully!');
-        router.push(`/student/dashboard/tests/${sessionId}/result`);
+        const testIdForRoute = test?.id || params.id;
+        router.push(`/student/dashboard/tests/${testIdForRoute}/session/${sessionId}/result`);
       }
     } catch (error: unknown) {
       console.error('Error submitting exam:', error);

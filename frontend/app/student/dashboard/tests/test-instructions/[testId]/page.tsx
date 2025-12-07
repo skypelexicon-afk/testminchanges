@@ -75,7 +75,7 @@ export default function TestInstructionsPage() {
       if (response.data.success) {
         const sessionId = response.data.data.session.id;
         toast.success('Exam started successfully!');
-        router.push(`/student/dashboard/tests/${sessionId}/attempt`);
+        router.push(`/student/dashboard/tests/${testId}/session/${sessionId}/attempt`);
       }
     } catch (error: unknown) {
       console.error('Error starting exam:', error);

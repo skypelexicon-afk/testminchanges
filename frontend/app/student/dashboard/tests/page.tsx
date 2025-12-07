@@ -81,7 +81,7 @@ export default function StudentTestsPage() {
       if (ongoingResponse.data.success && ongoingResponse.data.data) {
         // Resume existing session
         const sessionId = ongoingResponse.data.data.session.id;
-        router.push(`/student/dashboard/tests/${sessionId}/attempt`);
+        router.push(`/student/dashboard/tests/${testId}/session/${sessionId}/attempt`);
       }
     } catch (error: unknown) {
       // If no ongoing session, go to instructions
@@ -95,8 +95,8 @@ export default function StudentTestsPage() {
     }
   };
 
-  const handleViewResult = (sessionId: number) => {
-    router.push(`/student/dashboard/tests/${sessionId}/result`);
+  const handleViewResult = (testId: number, sessionId: number) => {
+    router.push(`/student/dashboard/tests/${testId}/session/${sessionId}/result`);
   };
 
   if (loading) {
@@ -167,8 +167,8 @@ export default function StudentTestsPage() {
                 <AttemptCard
                   key={attempt.session_id}
                   attempt={attempt}
-                  onViewResult={() => handleViewResult(attempt.session_id)}
-                  onResume={() => router.push(`/student/dashboard/tests/${attempt.session_id}/attempt`)}
+                  onViewResult={() => handleViewResult(attempt.test_id, attempt.session_id)}
+                  onResume={() => router.push(`/student/dashboard/tests/${attempt.test_id}/session/${attempt.session_id}/attempt`)}
                 />
               ))}
             </div>

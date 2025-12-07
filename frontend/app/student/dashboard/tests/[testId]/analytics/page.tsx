@@ -55,7 +55,7 @@ interface Insights {
 export default function TestAnalyticsPage() {
   const params = useParams();
   const router = useRouter();
-  const testId = params.id as string;
+  const testId = params.testId as string;
 
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [insights, setInsights] = useState<Insights | null>(null);

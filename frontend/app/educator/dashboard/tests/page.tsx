@@ -159,7 +159,7 @@ interface TestCardProps {
   onLeaderboard: () => void;
 }
 
-function TestCard({ test, onDelete, onEdit, onView }: TestCardProps) {
+function TestCard({ test, onDelete, onEdit, onView, onAnalytics, onLeaderboard }: TestCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published':
@@ -204,35 +204,61 @@ function TestCard({ test, onDelete, onEdit, onView }: TestCardProps) {
             {test.description}
           </p>
         )}
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1"
-            onClick={onView}
-            data-testid={`view-test-${test.id}`}
-          >
-            <Eye className="h-4 w-4 mr-1" />
-            View
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1"
-            onClick={onEdit}
-            data-testid={`edit-test-${test.id}`}
-          >
-            <Edit className="h-4 w-4 mr-1" />
-            Edit
-          </Button>
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={onDelete}
-            data-testid={`delete-test-${test.id}`}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={onView}
+              data-testid={`view-test-${test.id}`}
+            >
+              <Eye className="h-4 w-4 mr-1" />
+              View
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={onEdit}
+              data-testid={`edit-test-${test.id}`}
+            >
+              <Edit className="h-4 w-4 mr-1" />
+              Edit
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={onDelete}
+              data-testid={`delete-test-${test.id}`}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+          {test.status === 'published' && (
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={onAnalytics}
+                data-testid={`analytics-test-${test.id}`}
+              >
+                <BarChart3 className="h-4 w-4 mr-1" />
+                Analytics
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={onLeaderboard}
+                data-testid={`leaderboard-test-${test.id}`}
+              >
+                <Trophy className="h-4 w-4 mr-1" />
+                Leaderboard
+              </Button>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

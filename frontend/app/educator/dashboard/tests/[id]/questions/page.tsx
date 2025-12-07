@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Plus, Trash2, Save, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { fetchApi } from '@/lib/doFetch';
+import CourseRecommendationManager from '@/components/test/CourseRecommendationManager';
 
 type QuestionType = 'mcq' | 'multiple_correct' | 'true_false' | 'numerical';
 
@@ -608,6 +609,11 @@ export default function QuestionsPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Course Recommendations Section */}
+      <div className="mt-8">
+        <CourseRecommendationManager testId={parseInt(testId)} />
       </div>
     </div>
   );

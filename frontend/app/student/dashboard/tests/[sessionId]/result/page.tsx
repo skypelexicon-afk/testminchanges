@@ -333,6 +333,20 @@ export default function ExamResultPage() {
         </CardContent>
       </Card>
 
+      {/* Recommended Courses Section */}
+      {resultData.test.id && (
+        <div className="mt-8">
+          <RecommendedCourses testId={resultData.test.id} />
+        </div>
+      )}
+
+      {/* Doubt Section */}
+      {resultData.test.id && (
+        <div className="mt-8">
+          <DoubtSection sessionId={session.id} testId={resultData.test.id} />
+        </div>
+      )}
+
       {/* Actions */}
       <div className="flex justify-center gap-4 mt-8">
         <Button
@@ -342,6 +356,15 @@ export default function ExamResultPage() {
         >
           Back to Tests
         </Button>
+        {resultData.test.id && (
+          <Button
+            onClick={() => router.push(`/student/dashboard/tests/${resultData.test.id}/leaderboard`)}
+            data-testid="view-leaderboard-button"
+          >
+            <Trophy className="h-4 w-4 mr-2" />
+            View Leaderboard
+          </Button>
+        )}
       </div>
     </div>
   );

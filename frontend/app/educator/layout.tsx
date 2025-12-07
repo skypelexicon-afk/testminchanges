@@ -1,6 +1,7 @@
 'use client';
 
 import ClientLayout from '@/app/ClientLayout';
+import FloatingTestPortalButton from '@/components/test/FloatingTestPortalButton';
 import { Suspense } from 'react';
 
 export default function EducatorLayout({
@@ -10,7 +11,10 @@ export default function EducatorLayout({
 }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ClientLayout>{children}</ClientLayout>
+            <ClientLayout>
+                {children}
+                <FloatingTestPortalButton userRole="educator" />
+            </ClientLayout>
         </Suspense>
     );
 }

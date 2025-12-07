@@ -220,14 +220,28 @@ function TestCard({ test, onStart }: TestCardProps) {
             {test.description}
           </p>
         )}
-        <Button
-          className="w-full"
-          onClick={onStart}
-          data-testid={`start-test-${test.id}`}
-        >
-          <Play className="h-4 w-4 mr-2" />
-          Start Test
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            className="flex-1"
+            onClick={onStart}
+            data-testid={`start-test-${test.id}`}
+          >
+            <Play className="h-4 w-4 mr-2" />
+            Start Test
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.location.href = `/student/dashboard/tests/${test.id}/leaderboard`;
+            }}
+            data-testid={`view-leaderboard-${test.id}`}
+            title="View Leaderboard"
+          >
+            <Trophy className="h-4 w-4" />
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

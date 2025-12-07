@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, BookOpen, FileText, Plus, Edit, Trash2, Eye } from 'lucide-react';
+import { Clock, BookOpen, FileText, Plus, Edit, Trash2, Eye, BarChart3, MessageSquare, Trophy } from 'lucide-react';
 import { toast } from 'sonner';
 import { fetchApi } from '@/lib/doFetch';
 
@@ -105,6 +105,18 @@ export default function EducatorTestsPage() {
         </Button>
       </div>
 
+      {/* Quick Actions for All Tests */}
+      <div className="mb-6 flex gap-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/educator/dashboard/tests/doubts')}
+          data-testid="view-all-doubts-button"
+        >
+          <MessageSquare className="h-4 w-4 mr-2" />
+          All Student Doubts
+        </Button>
+      </div>
+
       {tests.length === 0 ? (
         <Card className="text-center py-12">
           <CardContent>
@@ -128,6 +140,8 @@ export default function EducatorTestsPage() {
               onDelete={() => handleDeleteTest(test.id)}
               onEdit={() => router.push(`/educator/dashboard/tests/${test.id}/questions`)}
               onView={() => router.push(`/educator/dashboard/tests/${test.id}/instructions`)}
+              onAnalytics={() => router.push(`/educator/dashboard/tests/${test.id}/analytics`)}
+              onLeaderboard={() => router.push(`/educator/dashboard/tests/${test.id}/leaderboard`)}
             />
           ))}
         </div>
@@ -141,6 +155,8 @@ interface TestCardProps {
   onDelete: () => void;
   onEdit: () => void;
   onView: () => void;
+  onAnalytics: () => void;
+  onLeaderboard: () => void;
 }
 
 function TestCard({ test, onDelete, onEdit, onView }: TestCardProps) {
